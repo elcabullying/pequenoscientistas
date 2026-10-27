@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Como a IA Ajuda na Aprendizagem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --wine-900:#3C1119;
+    --wine-800:#4A1620;
+    --wine-700:#6D1F2A;
+    --wine-600:#822536;
+    --wine-500:#9C3B4D;
+    --wine-200:#E9C9CF;
+    --wine-100:#F6E8EA;
+    --wine-50:#FBF3F4;
+    --white:#FFFFFF;
+    --gray-900:#262528;
+    --gray-700:#4B4A4E;
+    --gray-500:#78767C;
+    --gray-300:#C9C6C4;
+    --gray-200:#E2DFDC;
+    --gray-100:#F1EFED;
+    --shadow: 0 1px 2px rgba(60,17,25,.06), 0 8px 24px rgba(60,17,25,.08);
+    --radius: 14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    color:var(--gray-900);
+    background:var(--white);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+  p{line-height:1.65; color:var(--gray-700);}
+  button{font-family:inherit; cursor:pointer;}
+  img{max-width:100%; display:block;}
+  a{color:inherit;}
+
+  /* ---------- Header / Nav ---------- */
+  header.topbar{
+    position:sticky; top:0; z-index:50;
+    background:var(--white);
+    border-bottom:1px solid var(--gray-200);
+  }
+  .topbar-inner{
+    max-width:1180px; margin:0 auto;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 24px;
+    gap:16px;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Fraunces',serif; font-weight:600;
+    font-size:1.05rem; color:var(--wine-800);
+    line-height:1.15;
+  }
+  .brand-mark{
+    width:34px; height:34px; flex:none;
+  }
+  nav.tabs{
+    display:flex; gap:4px;
+    background:var(--gray-100);
+    padding:4px; border-radius:999px;
+  }
+  nav.tabs button{
+    border:none; background:transparent;
+    padding:9px 18px; border-radius:999px;
+    font-size:.92rem; font-weight:600;
+    color:var(--gray-700);
+    transition:background .18s ease, color .18s ease;
+  }
+  nav.tabs button.active{
+    background:var(--wine-700); color:var(--white);
+  }
+  nav.tabs button:not(.active):hover{
+    background:var(--wine-100); color:var(--wine-800);
+  }
+
+  .view{display:none;}
+  .view.active{display:block;}
+
+  /* ---------- Hero / Home ---------- */
+  .hero{
+    max-width:1180px; margin:0 auto;
+    padding:64px 24px 40px;
+    display:grid; grid-template-columns:1.15fr .85fr; gap:48px;
+    align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(2.1rem, 3.6vw, 3.1rem);
+    color:var(--wine-900);
+    line-height:1.08;
+  }
+  .hero .kicker{
+    display:inline-block; font-size:.8rem; font-weight:700;
+    color:var(--wine-700); background:var(--wine-100);
+    padding:6px 12px; border-radius:999px; margin-bottom:16px;
+  }
+  .hero p.lead{
+    margin-top:18px; font-size:1.08rem; max-width:52ch; color:var(--gray-700);
+  }
+  .hero-ctas{margin-top:28px; display:flex; gap:12px; flex-wrap:wrap;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:13px 22px; border-radius:10px;
+    font-weight:700; font-size:.95rem;
+    border:1.5px solid transparent;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn-primary{background:var(--wine-700); color:var(--white);}
+  .btn-primary:hover{background:var(--wine-800); transform:translateY(-1px);}
+  .btn-ghost{background:var(--white); color:var(--wine-800); border-color:var(--gray-300);}
+  .btn-ghost:hover{border-color:var(--wine-500); color:var(--wine-800);}
+
+  .hero-art{display:flex; align-items:center; justify-content:center;}
+
+  /* ---------- Section generic ---------- */
+  .section{
+    max-width:900px; margin:0 auto; padding:36px 24px;
+  }
+  .section + .section{border-top:1px solid var(--gray-200);}
+  .section h2{
+    font-size:1.7rem; color:var(--wine-900); margin-bottom:6px;
+  }
+  .section .eyebrow{
+    font-size:.82rem; font-weight:700; color:var(--wine-600);
+    text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px; display:block;
+  }
+  .section p{margin:14px 0; font-size:1.02rem;}
+  .section p:first-of-type{margin-top:18px;}
+  .callout{
+    background:var(--gray-100); border-left:4px solid var(--wine-600);
+    border-radius:0 10px 10px 0; padding:16px 20px; margin:20px 0;
+    font-size:.98rem; color:var(--gray-700);
+  }
+  .callout strong{color:var(--wine-800);}
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:22px 0;}
+  .mini-card{
+    border:1px solid var(--gray-200); border-radius:10px; padding:16px 18px;
+    background:var(--white);
+  }
+  .mini-card h3{font-size:1rem; color:var(--wine-800); margin-bottom:6px; font-family:'Inter'; font-weight:700;}
+  .mini-card p{font-size:.92rem; margin:0; color:var(--gray-700);}
+
+  .section-cta{
+    max-width:900px; margin:0 auto 64px; padding:0 24px;
+    display:flex; gap:14px; flex-wrap:wrap;
+  }
+
+  /* ---------- Grids (videos / games) ---------- */
+  .page-head{
+    max-width:1180px; margin:0 auto; padding:44px 24px 8px;
+  }
+  .page-head h2{font-size:2rem; color:var(--wine-900);}
+  .page-head p{max-width:62ch; font-size:1.02rem;}
+
+  .cards-grid{
+    max-width:1180px; margin:0 auto; padding:24px 24px 72px;
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:22px;
+  }
+
+  /* video card */
+  .video-card{
+    border:1px solid var(--gray-200); border-radius:var(--radius);
+    overflow:hidden; background:var(--white); box-shadow:var(--shadow);
+    display:flex; flex-direction:column;
+  }
+  .video-frame{
+    position:relative; aspect-ratio:16/9; background:var(--gray-900);
+    cursor:pointer; overflow:hidden;
+  }
+  a.video-frame{display:block; text-decoration:none;}
+  .video-frame{background:linear-gradient(135deg,var(--wine-700),var(--wine-900));}
+  .video-frame img{position:relative; z-index:1; width:100%; height:100%; object-fit:cover; opacity:.85;}
+  .cover{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; padding:16px; text-align:center; color:#fff;}
+  .cover-emoji{font-size:54px; line-height:1; filter:drop-shadow(0 4px 8px rgba(0,0,0,.25));}
+  .cover-title{font-weight:800; font-size:16px; line-height:1.25; text-shadow:0 2px 6px rgba(0,0,0,.35); max-width:90%;}
+  .cover-fallback{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; padding:12px; text-align:center; color:#fff; font-weight:700; font-size:15px; line-height:1.3;}
+  .video-frame iframe{width:100%; height:100%; border:0; display:block;}
+  .play-overlay{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(180deg, rgba(60,17,25,.05), rgba(60,17,25,.55));
+  }
+  .play-btn{
+    width:58px; height:58px; border-radius:50%;
+    background:rgba(255,255,255,.92); color:var(--wine-700);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.4rem; box-shadow:0 6px 18px rgba(0,0,0,.25);
+    transition:transform .15s ease;
+  }
+  .video-frame:hover .play-btn{transform:scale(1.08);}
+  .video-meta{padding:16px 18px 18px;}
+  .video-tag{
+    font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.05em;
+    color:var(--wine-600); margin-bottom:6px; display:block;
+  }
+  .video-meta h3{font-size:1.02rem; font-family:'Inter'; font-weight:700; color:var(--gray-900); line-height:1.3;}
+
+  /* game card */
+  .game-card{
+    border:1px solid var(--gray-200); border-radius:var(--radius);
+    background:var(--white); box-shadow:var(--shadow);
+    padding:0; overflow:hidden; display:flex; flex-direction:column;
+  }
+  .game-card .bar{height:7px;}
+  .game-card .body{padding:20px 20px 18px;}
+  .game-card .icon{
+    width:48px; height:48px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.5rem; margin-bottom:12px;
+  }
+  .game-card h3{font-size:1.08rem; font-family:'Inter'; font-weight:700; margin-bottom:6px; color:var(--gray-900);}
+  .game-card p{font-size:.9rem; margin:0 0 16px; color:var(--gray-700);}
+  .game-card .play{
+    border:none; background:var(--gray-900); color:var(--white);
+    padding:10px 16px; border-radius:8px; font-weight:700; font-size:.86rem;
+    display:inline-flex; align-items:center; gap:6px;
+  }
+
+  /* ---------- Game play screen ---------- */
+  #view-play{max-width:980px; margin:0 auto; padding:24px 24px 80px;}
+  .play-topbar{
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    flex-wrap:wrap; margin-bottom:18px;
+  }
+  .back-btn{
+    border:1.5px solid var(--gray-300); background:var(--white); color:var(--gray-700);
+    padding:9px 16px; border-radius:8px; font-weight:600; font-size:.88rem;
+  }
+  .back-btn:hover{border-color:var(--wine-500); color:var(--wine-700);}
+  .play-stats{display:flex; align-items:center; gap:18px; font-size:.9rem; color:var(--gray-700);}
+  .score-pill{
+    background:var(--wine-800); color:var(--white); padding:8px 16px;
+    border-radius:999px; font-weight:700; font-size:.92rem;
+  }
+  .phase-dots{display:flex; gap:7px;}
+  .phase-dot{width:11px; height:11px; border-radius:50%; background:var(--gray-200); border:1.5px solid var(--gray-300);}
+  .phase-dot.done{background:var(--wine-700); border-color:var(--wine-700);}
+  .phase-dot.current{background:var(--wine-200); border-color:var(--wine-600);}
+
+  .game-title-row{margin-bottom:20px;}
+  .game-title-row h2{font-size:1.6rem; color:var(--wine-900);}
+  .game-title-row p{margin:6px 0 0; font-size:.94rem;}
+
+  .timerbar-wrap{height:6px; background:var(--gray-100); border-radius:999px; overflow:hidden; margin-bottom:22px; display:none;}
+  .timerbar{height:100%; background:var(--wine-600); width:100%; transition:width .1s linear;}
+
+  .stage{
+    background:var(--gray-100); border-radius:18px; padding:32px 20px 26px;
+    display:flex; flex-direction:column; align-items:center; gap:26px;
+    min-height:340px; position:relative;
+  }
+  .item-counter{font-size:.85rem; color:var(--gray-500); font-weight:600;}
+  .chip{
+    background:var(--white); border:2px solid var(--gray-300);
+    border-radius:16px; padding:20px 26px; text-align:center;
+    box-shadow:0 6px 16px rgba(0,0,0,.08);
+    touch-action:none; user-select:none; cursor:grab;
+    min-width:150px;
+    transition:box-shadow .15s ease;
+  }
+  .chip:active{cursor:grabbing; box-shadow:0 10px 26px rgba(0,0,0,.18);}
+  .chip .emoji{font-size:2.4rem; display:block; margin-bottom:6px;}
+  .chip .label{font-weight:800; font-size:1.05rem; color:var(--gray-900); font-family:'Fraunces',serif;}
+  .chip.dragging{position:fixed; z-index:200; pointer-events:none;}
+  .chip.shake{animation:shake .4s ease;}
+  @keyframes shake{
+    0%,100%{transform:translateX(0);} 20%{transform:translateX(-8px);} 40%{transform:translateX(8px);} 60%{transform:translateX(-6px);} 80%{transform:translateX(6px);}
+  }
+  .chip.pop-in{animation:popIn .28s ease;}
+  @keyframes popIn{from{transform:scale(.7); opacity:0;} to{transform:scale(1); opacity:1;}}
+
+  .bins{display:flex; gap:16px; flex-wrap:wrap; justify-content:center; width:100%;}
+  .bin{
+    flex:1 1 140px; min-width:130px; max-width:220px;
+    border-radius:16px; padding:18px 14px 16px; text-align:center;
+    border:3px dashed transparent; color:var(--white);
+    transition:transform .12s ease, border-color .12s ease;
+    font-weight:800; font-family:'Fraunces',serif; font-size:1rem;
+  }
+  .bin .bin-emoji{font-size:1.6rem; display:block; margin-bottom:6px;}
+  .bin.drop-hover{transform:translateY(-3px) scale(1.03); border-color:rgba(255,255,255,.85);}
+  .bin.flash-correct{animation:flashGood .5s ease;}
+  .bin.flash-wrong{animation:flashBad .5s ease;}
+  @keyframes flashGood{0%{filter:brightness(1);} 40%{filter:brightness(1.5);} 100%{filter:brightness(1);}}
+  @keyframes flashBad{0%,100%{transform:translateX(0);} 25%{transform:translateX(-6px);} 75%{transform:translateX(6px);}}
+
+  .floaty{
+    position:fixed; font-weight:800; font-size:1.3rem; pointer-events:none; z-index:300;
+    animation:floatUp 1s ease forwards;
+  }
+  @keyframes floatUp{
+    0%{opacity:1; transform:translateY(0) scale(1);}
+    100%{opacity:0; transform:translateY(-60px) scale(1.3);}
+  }
+
+  .phase-complete{
+    position:absolute; inset:0; background:rgba(255,255,255,.97);
+    border-radius:18px; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:14px; text-align:center; padding:20px;
+  }
+  .stars{font-size:2.2rem; letter-spacing:6px;}
+  .phase-complete h3{font-size:1.4rem; color:var(--wine-900);}
+  .phase-complete p{margin:0; font-size:.95rem;}
+
+  /* ---------- Footer ---------- */
+  footer{
+    background:var(--gray-900); color:var(--gray-300);
+    padding:34px 24px; text-align:center; font-size:.86rem;
+  }
+  footer strong{color:var(--white);}
+
+  /* ---------- Tutora IA (estilo chat) ---------- */
+  .chat-wrap{max-width:860px; margin:0 auto; padding:0 24px 72px;}
+  .topic-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; margin-top:12px;}
+  .topic-card{
+    border:1px solid var(--gray-200); border-top-width:5px; background:var(--white);
+    border-radius:var(--radius); padding:16px; text-align:left; box-shadow:var(--shadow);
+    transition:transform .15s ease, border-color .15s ease;
+    display:flex; flex-direction:column; gap:6px;
+  }
+  .topic-card:hover{transform:translateY(-2px); border-color:var(--wine-500);}
+  .topic-card .t-emoji{font-size:1.6rem;}
+  .topic-card h3{font-family:'Inter',sans-serif; font-size:.98rem; font-weight:700; color:var(--gray-900); margin:0;}
+  .topic-card p{font-size:.84rem; margin:0; color:var(--gray-700); line-height:1.45;}
+
+  .chat-box{
+    border:1px solid var(--gray-200); border-radius:var(--radius); box-shadow:var(--shadow);
+    background:var(--white); display:flex; flex-direction:column;
+    height:min(660px, calc(100vh - 200px)); min-height:460px; overflow:hidden;
+  }
+  .chat-head{
+    display:flex; align-items:center; gap:12px; padding:12px 16px;
+    border-bottom:1px solid var(--gray-200); background:var(--wine-50);
+  }
+  .chat-head .back-btn{flex:none; padding:7px 12px; font-size:.82rem;}
+  .chat-avatar{
+    width:40px; height:40px; border-radius:50%; flex:none;
+    display:flex; align-items:center; justify-content:center; font-size:1.2rem; background:var(--wine-700);
+  }
+  .chat-title{min-width:0;}
+  .chat-title h3{font-family:'Inter',sans-serif; font-size:1rem; font-weight:700; color:var(--wine-900); margin:0; line-height:1.25;}
+  .chat-title p{margin:0; font-size:.78rem; color:var(--gray-500);}
+
+  .chat-log{
+    flex:1 1 auto; min-height:0; overflow-y:auto; padding:18px; display:flex; flex-direction:column; gap:12px;
+    background:var(--gray-100);
+  }
+  .row{display:flex; align-items:flex-end; gap:8px;}
+  .row.user{justify-content:flex-end;}
+  .mini-avatar{
+    width:28px; height:28px; border-radius:50%; flex:none; background:var(--wine-700);
+    display:flex; align-items:center; justify-content:center; font-size:.85rem;
+  }
+  .msg{
+    max-width:80%; padding:10px 14px; border-radius:14px; font-size:.95rem; line-height:1.55;
+    white-space:pre-wrap; word-wrap:break-word;
+  }
+  .msg.user{background:var(--wine-700); color:var(--white); border-bottom-right-radius:4px;}
+  .msg.bot{background:var(--white); color:var(--gray-900); border:1px solid var(--gray-200); border-bottom-left-radius:4px;}
+  .msg.typing{color:var(--gray-500); font-style:italic;}
+  .msg.error{background:#FDECEC; color:#8A1C1C; border-bottom-left-radius:4px;}
+
+  .chat-suggest{
+    display:flex; gap:8px; overflow-x:auto; padding:10px 16px;
+    border-top:1px solid var(--gray-200); background:var(--white);
+  }
+  .suggest-chip{
+    flex:none; border:1.5px solid var(--wine-200); background:var(--white); color:var(--wine-800);
+    padding:7px 12px; border-radius:999px; font-size:.82rem; font-weight:600;
+  }
+  .suggest-chip:hover:not(:disabled){background:var(--wine-100);}
+  .suggest-chip:disabled{opacity:.5; cursor:not-allowed;}
+
+  .chat-form{display:flex; gap:10px; padding:12px 16px; border-top:1px solid var(--gray-200);}
+  .chat-form input{
+    flex:1; min-width:0; border:1.5px solid var(--gray-300); border-radius:10px;
+    padding:12px 14px; font:inherit; font-size:.95rem; color:var(--gray-900);
+  }
+  .chat-form input:focus{outline:none; border-color:var(--wine-500);}
+  .chat-form button{padding:12px 20px;}
+  .chat-form button:disabled{opacity:.5; cursor:not-allowed; transform:none;}
+  .chat-note{font-size:.76rem; color:var(--gray-500); padding:0 16px 12px; margin:0; background:var(--white);}
+
+  .voice-bar{display:flex; justify-content:flex-end; padding:8px 16px; border-bottom:1px solid var(--gray-200); background:var(--white);}
+  .voice-btn{
+    border:1.5px solid var(--wine-200); background:var(--wine-50); color:var(--wine-800);
+    padding:7px 14px; border-radius:999px; font-size:.84rem; font-weight:700;
+  }
+  .voice-btn:hover:not(:disabled){background:var(--wine-100);}
+  .voice-btn:disabled{opacity:.6; cursor:not-allowed;}
+  @media (max-width:820px){
+    .msg{max-width:94%;}
+    .chat-wrap{padding:0 12px 48px;}
+    .chat-head{padding:10px 12px; gap:8px;}
+    .chat-head .back-btn{padding:6px 10px; font-size:.78rem; white-space:nowrap;}
+    .chat-avatar{display:none;}
+    .chat-title h3{font-size:.92rem;}
+    .chat-form{padding:10px 12px;}
+    .chat-form button{padding:12px 14px;}
+    .hero{grid-template-columns:1fr; padding-top:40px;}
+    .hero-art{order:-1;}
+    .grid-2{grid-template-columns:1fr;}
+    nav.tabs button{padding:8px 12px; font-size:.82rem;}
+    .brand span.full{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="3.6" fill="#6D1F2A"/>
+        <ellipse cx="20" cy="20" rx="17" ry="7" stroke="#6D1F2A" stroke-width="2"/>
+        <ellipse cx="20" cy="20" rx="17" ry="7" stroke="#9C3B4D" stroke-width="2" transform="rotate(60 20 20)"/>
+        <ellipse cx="20" cy="20" rx="17" ry="7" stroke="#C77E8C" stroke-width="2" transform="rotate(120 20 20)"/>
+      </svg>
+      <span class="full">Como a IA Ajuda na Aprendizagem</span>
+    </div>
+    <nav class="tabs">
+      <button class="tab-btn active" data-view="home">Início</button>
+      <button class="tab-btn" data-view="videos">Vídeo-aulas</button>
+      <button class="tab-btn" data-view="games">Jogos</button>
+      <button class="tab-btn" data-view="chat">Tire dúvidas</button>
+    </nav>
+  </div>
+</header>
+
+<!-- ================= HOME ================= -->
+<section id="view-home" class="view active">
+  <div class="hero">
+    <div>
+      <span class="kicker">Plataforma de Ciências</span>
+      <h1>Como a IA Ajuda na Aprendizagem</h1>
+      <p class="lead">Um espaço aberto a qualquer pessoa para aprender Ciências assistindo vídeo-aulas curtas e jogando jogos coloridos sobre células, química, seres vivos, misturas, substâncias e tecidos.</p>
+      <div class="hero-ctas">
+        <button class="btn btn-primary" data-goto="videos">▶ Ver vídeo-aulas</button>
+        <button class="btn btn-ghost" data-goto="games">🎮 Jogar agora</button>
+      </div>
+    </div>
+    <div class="hero-art">
+      <svg width="280" height="280" viewBox="0 0 280 280" fill="none">
+        <circle cx="140" cy="140" r="60" fill="#F6E8EA" opacity=".6"/>
+        <circle cx="140" cy="140" r="9" fill="#6D1F2A">
+          <animate attributeName="r" values="9;11;9" dur="1.6s" repeatCount="indefinite"/>
+        </circle>
+        <g stroke="#6D1F2A" stroke-width="2.4" opacity=".85">
+          <g transform="rotate(0 140 140)">
+            <ellipse cx="140" cy="140" rx="120" ry="46"/>
+            <g>
+              <animateMotion dur="3s" repeatCount="indefinite" path="M 260 140 A 120 46 0 1 1 20 140 A 120 46 0 1 1 260 140"/>
+              <circle cx="0" cy="0" r="7" fill="#9C3B4D" stroke="none"/>
+            </g>
+          </g>
+          <g transform="rotate(60 140 140)">
+            <ellipse cx="140" cy="140" rx="120" ry="46"/>
+            <g>
+              <animateMotion dur="3.6s" repeatCount="indefinite" path="M 260 140 A 120 46 0 1 0 20 140 A 120 46 0 1 0 260 140"/>
+              <circle cx="0" cy="0" r="7" fill="#9C3B4D" stroke="none"/>
+            </g>
+          </g>
+          <g transform="rotate(120 140 140)">
+            <ellipse cx="140" cy="140" rx="120" ry="46"/>
+            <g>
+              <animateMotion dur="4.2s" repeatCount="indefinite" path="M 260 140 A 120 46 0 1 1 20 140 A 120 46 0 1 1 260 140"/>
+              <circle cx="0" cy="0" r="7" fill="#9C3B4D" stroke="none"/>
+            </g>
+          </g>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <div class="section">
+    <span class="eyebrow">Fundamentos</span>
+    <h2>O que é Ciência?</h2>
+    <p>Ciência é o conjunto organizado de conhecimentos que a humanidade construiu, ao longo de milhares de anos, para entender e explicar o funcionamento da natureza e do universo. Ela nasce de uma atitude muito simples e muito poderosa: a curiosidade. Toda vez que alguém observa algo — uma planta crescendo em direção à luz, uma pedra que afunda na água enquanto uma folha flutua, o motivo de o gelo derreter — e se pergunta "por quê?", essa pessoa está dando o primeiro passo do pensamento científico.</p>
+    <p>O que diferencia a Ciência de uma simples opinião ou de uma crença é o seu método. Os cientistas não aceitam explicações apenas porque parecem convincentes; eles observam com atenção, levantam hipóteses (possíveis explicações), fazem experimentos para testar essas hipóteses, coletam dados, analisam resultados e só então chegam a conclusões — que continuam sendo testadas e revistas sempre que novas evidências aparecem. Esse processo é chamado de método científico, e é ele que torna o conhecimento científico confiável e capaz de evoluir.</p>
+    <p>A Ciência costuma ser dividida em grandes áreas que conversam entre si. A Biologia estuda os seres vivos: como nascem, crescem, se alimentam, se reproduzem e se relacionam com o ambiente — é nela que estudamos as células, os tecidos do corpo e a diferença entre seres vivos e não vivos. A Química investiga do que a matéria é feita, como os átomos se combinam para formar substâncias simples e compostas, e como diferentes materiais se misturam, formando misturas homogêneas ou heterogêneas. A Física explica o movimento, a energia, a luz e as forças que atuam sobre tudo o que existe. Há ainda a Astronomia, a Geologia e muitas outras áreas, todas construindo, juntas, uma imagem cada vez mais completa do mundo.</p>
+    <div class="callout">
+      <strong>Por que estudar Ciências é importante?</strong> Porque ela nos ensina a observar o mundo com atenção, a questionar informações antes de aceitá-las e a resolver problemas reais — da saúde à tecnologia, da alimentação ao meio ambiente. Aprender Ciências é aprender a pensar de forma mais clara e mais crítica.</p>
+    </div>
+    <p>Nesta plataforma, você vai explorar sete assuntos fundamentais para começar (ou reforçar) essa jornada: <strong>células</strong>, a unidade básica de todo ser vivo; <strong>química básica</strong>, com os átomos e elementos que formam tudo o que existe; a diferença entre <strong>seres vivos e não vivos</strong>; os diferentes <strong>tipos de misturas</strong> (soluções, suspensões e coloides); a distinção entre <strong>substâncias simples e compostas</strong>; os <strong>tecidos</strong> que formam o corpo humano; e as <strong>misturas homogêneas e heterogêneas</strong> que encontramos todos os dias, da água do mar à salada.</p>
+  </div>
+
+  <div class="section">
+    <span class="eyebrow">Tecnologia e Educação</span>
+    <h2>Como a IA ajuda na aprendizagem</h2>
+    <p>A Inteligência Artificial mudou a forma como é possível aprender, tornando o processo mais próximo do ritmo, das dúvidas e dos interesses de cada pessoa. Ela não substitui o professor nem o esforço de quem estuda — ela funciona como uma parceira que está sempre disponível, pronta para explicar de novo, de outro jeito, quantas vezes forem necessárias.</p>
+    <div class="grid-2">
+      <div class="mini-card">
+        <h3>🎯 Aprendizagem no seu ritmo</h3>
+        <p>Uma IA pode explicar o mesmo conteúdo de formas diferentes até encontrar a que faz mais sentido para você, sem pressa e sem julgamento — permitindo avançar rápido no que já é claro e desacelerar no que ainda precisa de mais atenção.</p>
+      </div>
+      <div class="mini-card">
+        <h3>⚡ Feedback imediato</h3>
+        <p>Em vez de esperar dias para saber se acertou um exercício, a pessoa que estuda com apoio de IA recebe respostas na hora, entendendo imediatamente o que aprendeu bem e o que precisa revisar.</p>
+      </div>
+      <div class="mini-card">
+        <h3>🧩 Aprender fazendo, através de jogos</h3>
+        <p>Jogos educativos usam princípios estudados pela ciência da aprendizagem — repetição, desafio crescente e recompensa — para transformar conceitos abstratos, como átomos ou tecidos, em experiências visuais e práticas, mais fáceis de lembrar.</p>
+      </div>
+      <div class="mini-card">
+        <h3>🎬 Conteúdo em vídeo sob demanda</h3>
+        <p>Vídeo-aulas organizadas por assunto permitem rever uma explicação quantas vezes forem necessárias, no momento em que a dúvida realmente aparece, em vez de depender apenas do tempo de uma aula presencial.</p>
+      </div>
+      <div class="mini-card">
+        <h3>🌍 Acesso mais amplo ao conhecimento</h3>
+        <p>Plataformas digitais abertas, como esta, aproximam o conhecimento científico de qualquer pessoa, em qualquer lugar, independentemente de ter ou não acesso a materiais ou explicações particulares.</p>
+      </div>
+      <div class="mini-card">
+        <h3>🤝 IA como apoio, não substituição</h3>
+        <p>A tecnologia funciona melhor quando soma forças com professores, famílias e a curiosidade de quem aprende — o pensamento crítico e a vontade de entender continuam sendo insubstituíveis.</p>
+      </div>
+    </div>
+    <p>É exatamente essa combinação — explicações organizadas, prática ativa por meio de jogos e liberdade para aprender no próprio ritmo — que esta plataforma tenta oferecer: um lugar simples, colorido e acolhedor para descobrir Ciências.</p>
+  </div>
+
+  <div class="section-cta">
+    <button class="btn btn-primary" data-goto="videos">▶ Começar pelas vídeo-aulas</button>
+    <button class="btn btn-ghost" data-goto="games">🎮 Começar pelos jogos</button>
+  </div>
+</section>
+
+<!-- ================= VIDEOS ================= -->
+<section id="view-videos" class="view">
+  <div class="page-head">
+    <h2>Vídeo-aulas</h2>
+    <p>Clique em qualquer vídeo para assistir no YouTube.</p>
+  </div>
+  <div class="cards-grid" id="videos-grid"></div>
+</section>
+
+<!-- ================= GAMES GRID ================= -->
+<section id="view-games" class="view">
+  <div class="page-head">
+    <h2>Jogos educativos</h2>
+    <p>Um jogo colorido para cada assunto. Arraste cada item até a caixa certa, ganhe pontos e avance de fase — a dificuldade aumenta a cada etapa.</p>
+  </div>
+  <div class="cards-grid" id="games-grid"></div>
+</section>
+
+<!-- ================= GAME PLAY ================= -->
+<section id="view-play" class="view">
+  <div class="play-topbar">
+    <button class="back-btn" id="back-to-games">← Voltar aos jogos</button>
+    <div class="play-stats">
+      <div class="phase-dots" id="phase-dots"></div>
+      <div class="score-pill" id="score-pill">0 pontos</div>
+    </div>
+  </div>
+  <div class="game-title-row">
+    <h2 id="play-title"></h2>
+    <p id="play-sub"></p>
+  </div>
+  <div class="timerbar-wrap" id="timerbar-wrap"><div class="timerbar" id="timerbar"></div></div>
+  <div class="stage" id="stage">
+    <div class="item-counter" id="item-counter"></div>
+    <div id="chip-slot"></div>
+    <div class="bins" id="bins"></div>
+  </div>
+</section>
+
+<!-- ================= TUTORA IA ================= -->
+<section id="view-chat" class="view">
+  <!-- Passo 1: a pessoa escolhe o conteúdo -->
+  <div id="chat-pick" class="chat-wrap">
+    <div class="page-head" style="padding-left:0; padding-right:0;">
+      <h2>Tire suas dúvidas</h2>
+      <p>Primeiro escolha o conteúdo que você quer estudar. Depois é só perguntar: a tutora responde suas dúvidas sobre ele.</p>
+    </div>
+    <div class="topic-grid" id="topic-grid"></div>
+  </div>
+
+  <!-- Passo 2: conversa sobre o conteúdo escolhido -->
+  <div id="chat-talk" class="chat-wrap" style="display:none;">
+    <div class="chat-box">
+      <div class="chat-head">
+        <button class="back-btn" id="chat-change" type="button">← Trocar conteúdo</button>
+        <span class="chat-avatar">🤖</span>
+        <div class="chat-title">
+          <h3 id="chat-topic-title"></h3>
+          <p>Tutora de Ciências</p>
+        </div>
+      </div>
+      <div class="voice-bar"><button class="voice-btn" id="chat-voice" type="button" aria-pressed="true">🔊 Voz ligada</button></div>
+      <div class="chat-log" id="chat-log"></div>
+      <div class="chat-suggest" id="chat-suggest"></div>
+      <form class="chat-form" id="chat-form" autocomplete="off">
+        <input type="text" id="chat-input" placeholder="Escreva sua dúvida…" maxlength="500" aria-label="Sua dúvida">
+        <button class="btn btn-primary" id="chat-send" type="submit">Enviar</button>
+      </form>
+      <p class="chat-note">A tutora é uma IA e pode errar. Confira com seu professor ou livro didático.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>Como a IA Ajuda na Aprendizagem</strong> — uma plataforma aberta de Ciências, com vídeo-aulas e jogos para todas as idades.
+</footer>
+
+<script>
+/* ============================================================
+   NAVEGAÇÃO
+============================================================ */
+const views = ['home','videos','games','play','chat'];
+function showView(id){
+  views.forEach(v=>{
+    document.getElementById('view-'+v).classList.toggle('active', v===id);
+  });
+  document.querySelectorAll('.tab-btn').forEach(b=>{
+    b.classList.toggle('active', b.dataset.view===id);
+  });
+  window.scrollTo({top:0, behavior:'instant' in window ? 'instant' : 'auto'});
+}
+document.querySelectorAll('.tab-btn').forEach(b=>{
+  b.addEventListener('click', ()=>showView(b.dataset.view));
+});
+document.querySelectorAll('[data-goto]').forEach(b=>{
+  b.addEventListener('click', ()=>showView(b.dataset.goto));
+});
+
+/* ============================================================
+   VÍDEO-AULAS
+============================================================ */
+const VIDEO_GAME = {'kbVAPmcACF0':'celulas','pH5xznCHzJI':'quimica','F44CCcfMnqA':'seresVivos','FYD_5p63S40':'misturasTipos','sbYGKpg44-A':'substancias','5PrsYzOOhSo':'tecidos','Qr2MG4ELPIg':'homHet','Zb9Ryw0ZZc0':'sentidos'};
+const VIDEOS = [
+  {id:'kbVAPmcACF0', tag:'Células', title:'Célula Animal e Célula Vegetal — Diferenças'},
+  {id:'pH5xznCHzJI', tag:'Química Básica', title:'Introdução à Química: átomos e elementos'},
+  {id:'F44CCcfMnqA', tag:'Seres Vivos e Não Vivos', title:'O que são seres vivos e seres não vivos'},
+  {id:'FYD_5p63S40', tag:'Tipos de Misturas', title:'Dispersões: soluções, suspensões e coloides'},
+  {id:'sbYGKpg44-A', tag:'Substâncias Simples e Compostas', title:'Substâncias simples e compostas — vídeo animado'},
+  {id:'5PrsYzOOhSo', tag:'Tecidos', title:'Tecidos do corpo humano: epitelial, conjuntivo, muscular e nervoso'},
+  {id:'Qr2MG4ELPIg', tag:'Misturas Homogênea e Heterogênea', title:'Mistura homogênea e heterogênea — explicação rápida'},
+  {id:'Zb9Ryw0ZZc0', tag:'Sistemas Sensoriais', title:'Os cinco sentidos — quais são e como funciona cada um'},
+];
+
+const COVER = {
+  'kbVAPmcACF0':['#ff6b6b','#feca57','🦠'],
+  'pH5xznCHzJI':['#5f27cd','#00d2d3','⚛️'],
+  'F44CCcfMnqA':['#1dd1a1','#10ac84','🌱'],
+  'FYD_5p63S40':['#ff9ff3','#f368e0','🥤'],
+  'sbYGKpg44-A':['#2e86de','#54a0ff','🧪'],
+  '5PrsYzOOhSo':['#ff9f43','#ee5253','🧬'],
+  'Qr2MG4ELPIg':['#48dbfb','#0abde3','💧'],
+  'Zb9Ryw0ZZc0':['#ff6348','#ffa502','👀👂👃👅✋']
+};
+const videosGrid = document.getElementById('videos-grid');
+VIDEOS.forEach(v=>{
+  const [c1,c2,emo] = COVER[v.id] || ['#6c5ce7','#a29bfe','🎬'];
+  const card = document.createElement('div');
+  card.className = 'video-card';
+  card.innerHTML = `
+    <a class="video-frame cover" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener noreferrer" aria-label="Assistir: ${v.title} no YouTube" style="background:linear-gradient(135deg,${c1},${c2})">
+      <span class="cover-emoji">${emo}</span>
+      <span class="cover-title">${v.title}</span>
+      <div class="play-overlay"><div class="play-btn">▶</div></div>
+    </a>
+    <div class="video-meta">
+      <span class="video-tag">${v.tag}</span>
+      <h3>${v.title}</h3>
+      <button class="btn btn-ghost play-game-btn">🎮 Jogar sobre este tema</button>
+    </div>`;
+  const gid = VIDEO_GAME[v.id];
+  card.querySelector('.play-game-btn').addEventListener('click', ()=>{ if(gid) openGame(gid); });
+  videosGrid.appendChild(card);
+});
+
+/* ============================================================
+   DADOS DOS JOGOS
+============================================================ */
+const GAMES = {
+  celulas: {
+    title:'Monte a Célula', icon:'🧫', color:'#6D1F2A',
+    sub:'Arraste cada estrutura para a célula correta: vegetal, animal ou as duas.',
+    categories:[
+      {key:'vegetal', label:'Célula Vegetal', emoji:'🌿', color:'#4F9E62'},
+      {key:'animal', label:'Célula Animal', emoji:'🐾', color:'#E08A3C'},
+      {key:'ambas', label:'As Duas', emoji:'🧬', color:'#6D1F2A'}
+    ],
+    phases:[
+      [ {t:'Parede Celular', e:'🧱', c:'vegetal'}, {t:'Cloroplasto', e:'🌿', c:'vegetal'}, {t:'Centríolo', e:'🔘', c:'animal'}, {t:'Núcleo', e:'🧬', c:'ambas'} ],
+      [ {t:'Vacúolo Grande', e:'💧', c:'vegetal'}, {t:'Lisossomo', e:'🧴', c:'animal'}, {t:'Mitocôndria', e:'🔋', c:'ambas'}, {t:'Membrana Plasmática', e:'🫧', c:'ambas'}, {t:'Citoplasma', e:'🌊', c:'ambas'} ],
+      [ {t:'Ribossomos', e:'⚙️', c:'ambas'}, {t:'Complexo de Golgi', e:'📦', c:'ambas'}, {t:'Retículo Endoplasmático', e:'🕸️', c:'ambas'}, {t:'Cílios', e:'〰️', c:'animal'}, {t:'Plastídios', e:'🍃', c:'vegetal'} ]
+    ]
+  },
+  quimica: {
+    title:'Elemento, Composto ou Mistura?', icon:'⚗️', color:'#2FA88A',
+    sub:'Classifique cada exemplo de acordo com o tipo de substância.',
+    categories:[
+      {key:'elemento', label:'Elemento', emoji:'⚛️', color:'#F2A93B'},
+      {key:'composto', label:'Composto', emoji:'🧪', color:'#2FA88A'},
+      {key:'mistura', label:'Mistura', emoji:'🥤', color:'#E85D75'}
+    ],
+    phases:[
+      [ {t:'O₂', e:'💨', c:'elemento'}, {t:'H₂O', e:'💧', c:'composto'}, {t:'Ar', e:'🌬️', c:'mistura'}, {t:'Fe', e:'🔩', c:'elemento'} ],
+      [ {t:'CO₂', e:'🫧', c:'composto'}, {t:'NaCl', e:'🧂', c:'composto'}, {t:'Au', e:'🪙', c:'elemento'}, {t:'Água do Mar', e:'🌊', c:'mistura'}, {t:'N₂', e:'💨', c:'elemento'} ],
+      [ {t:'Glicose (C₆H₁₂O₆)', e:'🍬', c:'composto'}, {t:'Granito', e:'🪨', c:'mistura'}, {t:'Ozônio (O₃)', e:'☁️', c:'elemento'}, {t:'Amônia (NH₃)', e:'🧫', c:'composto'}, {t:'Leite', e:'🥛', c:'mistura'} ]
+    ]
+  },
+  seresVivos: {
+    title:'Vivo ou Não Vivo?', icon:'🐾', color:'#4CAF7D',
+    sub:'Arraste cada figura para o lugar certo antes que o tempo passe.',
+    categories:[
+      {key:'vivo', label:'Ser Vivo', emoji:'🌱', color:'#4CAF7D'},
+      {key:'naovivo', label:'Não Vivo', emoji:'🪨', color:'#5C7A99'}
+    ],
+    phases:[
+      [ {t:'Cachorro', e:'🐕', c:'vivo'}, {t:'Pedra', e:'🪨', c:'naovivo'}, {t:'Árvore', e:'🌳', c:'vivo'}, {t:'Carro', e:'🚗', c:'naovivo'}, {t:'Cadeira', e:'🪑', c:'naovivo'} ],
+      [ {t:'Fungo', e:'🍄', c:'vivo'}, {t:'Nuvem', e:'☁️', c:'naovivo'}, {t:'Formiga', e:'🐜', c:'vivo'}, {t:'Computador', e:'💻', c:'naovivo'}, {t:'Flor', e:'🌸', c:'vivo'}, {t:'Sol', e:'☀️', c:'naovivo'} ],
+      [ {t:'Bactéria', e:'🦠', c:'vivo'}, {t:'Coral', e:'🪸', c:'vivo'}, {t:'Gelo', e:'🧊', c:'naovivo'}, {t:'Semente', e:'🌰', c:'vivo'}, {t:'Vela Acesa', e:'🕯️', c:'naovivo'} ]
+    ]
+  },
+  misturasTipos: {
+    title:'Classifique a Mistura', icon:'🧪', color:'#9B6BC7',
+    sub:'Solução, suspensão ou coloide? Descubra o tipo de cada mistura.',
+    categories:[
+      {key:'solucao', label:'Solução', emoji:'🥃', color:'#4C8BF5'},
+      {key:'suspensao', label:'Suspensão', emoji:'🥄', color:'#A9744F'},
+      {key:'coloide', label:'Coloide', emoji:'🍦', color:'#9B6BC7'}
+    ],
+    phases:[
+      [ {t:'Água + Sal', e:'🧂', c:'solucao'}, {t:'Água + Areia', e:'🏖️', c:'suspensao'}, {t:'Leite', e:'🥛', c:'coloide'}, {t:'Ar', e:'🌬️', c:'solucao'} ],
+      [ {t:'Suco com Polpa', e:'🧃', c:'suspensao'}, {t:'Maionese', e:'🥫', c:'coloide'}, {t:'Água do Mar', e:'🌊', c:'solucao'}, {t:'Tinta', e:'🎨', c:'suspensao'}, {t:'Gelatina', e:'🍮', c:'coloide'} ],
+      [ {t:'Aço (liga)', e:'⚙️', c:'solucao'}, {t:'Fumaça', e:'💨', c:'coloide'}, {t:'Nevoeiro', e:'🌫️', c:'coloide'}, {t:'Refrigerante', e:'🥤', c:'solucao'}, {t:'Água + Cascalho', e:'🪨', c:'suspensao'} ]
+    ]
+  },
+  substancias: {
+    title:'Simples ou Composta?', icon:'🔬', color:'#2D9CDB',
+    sub:'Veja a fórmula e diga se é uma substância simples ou composta.',
+    categories:[
+      {key:'simples', label:'Substância Simples', emoji:'🔹', color:'#F2994A'},
+      {key:'composta', label:'Substância Composta', emoji:'🔷', color:'#2D9CDB'}
+    ],
+    phases:[
+      [ {t:'O₂', e:'💨', c:'simples'}, {t:'H₂O', e:'💧', c:'composta'}, {t:'Fe', e:'🔩', c:'simples'}, {t:'CO₂', e:'🫧', c:'composta'} ],
+      [ {t:'N₂', e:'💨', c:'simples'}, {t:'NaCl', e:'🧂', c:'composta'}, {t:'Au', e:'🪙', c:'simples'}, {t:'NH₃', e:'🧫', c:'composta'}, {t:'H₂', e:'🎈', c:'simples'} ],
+      [ {t:'Ozônio (O₃)', e:'☁️', c:'simples'}, {t:'Glicose (C₆H₁₂O₆)', e:'🍬', c:'composta'}, {t:'H₂SO₄', e:'⚠️', c:'composta'}, {t:'Fósforo (P₄)', e:'🔥', c:'simples'}, {t:'CaCO₃', e:'🐚', c:'composta'} ]
+    ]
+  },
+  tecidos: {
+    title:'Monte o Corpo: Tipos de Tecido', icon:'🧵', color:'#E15554',
+    sub:'Epitelial, conjuntivo, muscular ou nervoso? Encontre o grupo certo.',
+    categories:[
+      {key:'epitelial', label:'Epitelial', emoji:'🧴', color:'#E0729A'},
+      {key:'conjuntivo', label:'Conjuntivo', emoji:'🦴', color:'#B08968'},
+      {key:'muscular', label:'Muscular', emoji:'💪', color:'#E15554'},
+      {key:'nervoso', label:'Nervoso', emoji:'🧠', color:'#3F88C5'}
+    ],
+    phases:[
+      [ {t:'Pele', e:'🧴', c:'epitelial'}, {t:'Osso', e:'🦴', c:'conjuntivo'}, {t:'Músculo do Braço', e:'💪', c:'muscular'}, {t:'Neurônio', e:'🧠', c:'nervoso'} ],
+      [ {t:'Sangue', e:'🩸', c:'conjuntivo'}, {t:'Revestimento do Intestino', e:'🍽️', c:'epitelial'}, {t:'Músculo Cardíaco', e:'❤️', c:'muscular'}, {t:'Nervo Óptico', e:'👁️', c:'nervoso'}, {t:'Cartilagem', e:'👂', c:'conjuntivo'} ],
+      [ {t:'Tecido Adiposo', e:'🫓', c:'conjuntivo'}, {t:'Células de Glândula', e:'💧', c:'epitelial'}, {t:'Tendão', e:'🔗', c:'conjuntivo'}, {t:'Músculo Liso', e:'🌀', c:'muscular'}, {t:'Medula Espinhal', e:'🧵', c:'nervoso'} ]
+    ]
+  },
+  homHet: {
+    title:'Homogênea ou Heterogênea?', icon:'🥤', color:'#D9764A',
+    sub:'A mistura tem uma só fase (homogênea) ou mais de uma (heterogênea)?',
+    categories:[
+      {key:'homogenea', label:'Homogênea', emoji:'🥃', color:'#3FB0AC'},
+      {key:'heterogenea', label:'Heterogênea', emoji:'🥗', color:'#D9764A'}
+    ],
+    phases:[
+      [ {t:'Água + Sal', e:'🧂', c:'homogenea'}, {t:'Água + Óleo', e:'🫒', c:'heterogenea'}, {t:'Ar', e:'🌬️', c:'homogenea'}, {t:'Água + Areia', e:'🏖️', c:'heterogenea'} ],
+      [ {t:'Aço (liga)', e:'⚙️', c:'homogenea'}, {t:'Salada', e:'🥗', c:'heterogenea'}, {t:'Refrigerante', e:'🥤', c:'homogenea'}, {t:'Granito', e:'🪨', c:'heterogenea'}, {t:'Vinagre', e:'🍶', c:'homogenea'} ],
+      [ {t:'Suco com Polpa', e:'🧃', c:'heterogenea'}, {t:'Água do Mar Filtrada', e:'🌊', c:'homogenea'}, {t:'Leite', e:'🥛', c:'heterogenea'}, {t:'Gasolina', e:'⛽', c:'homogenea'}, {t:'Cascalho + Areia', e:'🪨', c:'heterogenea'} ]
+    ]
+  },
+  sentidos: {
+    title:'Quem Percebe o Quê?', icon:'👀', color:'#FF6348',
+    sub:'Arraste cada órgão ou situação para o sentido certo: visão, audição, olfato, paladar ou tato.',
+    categories:[
+      {key:'visao', label:'Visão', emoji:'👁️', color:'#2E86DE'},
+      {key:'audicao', label:'Audição', emoji:'👂', color:'#8E44AD'},
+      {key:'olfato', label:'Olfato', emoji:'👃', color:'#27AE60'},
+      {key:'paladar', label:'Paladar', emoji:'👅', color:'#E84393'},
+      {key:'tato', label:'Tato', emoji:'✋', color:'#F39C12'}
+    ],
+    phases:[
+      [ {t:'Olhos', e:'👀', c:'visao'}, {t:'Ouvido', e:'👂', c:'audicao'}, {t:'Nariz', e:'👃', c:'olfato'}, {t:'Língua', e:'👅', c:'paladar'}, {t:'Pele', e:'✋', c:'tato'} ],
+      [ {t:'Ver a luz', e:'💡', c:'visao'}, {t:'Ouvir um som', e:'🎵', c:'audicao'}, {t:'Sentir um cheiro', e:'🌹', c:'olfato'}, {t:'Sentir o doce', e:'🍬', c:'paladar'}, {t:'Sentir a textura', e:'🧶', c:'tato'} ],
+      [ {t:'Retina', e:'🔴', c:'visao'}, {t:'Cóclea', e:'🐚', c:'audicao'}, {t:'Papilas gustativas', e:'🍭', c:'paladar'}, {t:'Receptores de pressão', e:'🖐️', c:'tato'}, {t:'Epitélio olfativo', e:'🌬️', c:'olfato'}, {t:'Tímpano', e:'🥁', c:'audicao'} ]
+    ]
+  },
+  olhoPartes: {
+    title:'Partes do Olho', icon:'👁️', color:'#2E86DE',
+    sub:'Essa parte do olho fica por fora ou por dentro? Arraste cada estrutura para o lugar certo.',
+    categories:[
+      {key:'externa', label:'Parte Externa', emoji:'🙂', color:'#2E86DE'},
+      {key:'interna', label:'Parte Interna', emoji:'🧠', color:'#8E44AD'}
+    ],
+    phases:[
+      [ {t:'Pálpebra', e:'😌', c:'externa'}, {t:'Córnea', e:'🪟', c:'externa'}, {t:'Retina', e:'🔴', c:'interna'}, {t:'Íris', e:'🎨', c:'externa'} ],
+      [ {t:'Esclera (branco do olho)', e:'⚪', c:'externa'}, {t:'Cristalino', e:'🔍', c:'interna'}, {t:'Nervo óptico', e:'🧵', c:'interna'}, {t:'Pupila', e:'⚫', c:'externa'} ],
+      [ {t:'Humor vítreo', e:'💧', c:'interna'}, {t:'Humor aquoso', e:'🫧', c:'interna'}, {t:'Glândula lacrimal', e:'💦', c:'externa'}, {t:'Coroide', e:'🟤', c:'interna'}, {t:'Músculos do olho', e:'↔️', c:'externa'} ]
+    ]
+  }
+};
+const GAME_ORDER = ['celulas','quimica','seresVivos','misturasTipos','substancias','tecidos','homHet','sentidos','olhoPartes'];
+const PHASE_TIME = [0, 18, 12]; // segundos por item; fase 1 sem cronômetro
+
+/* ---------- grade de jogos ---------- */
+const gamesGrid = document.getElementById('games-grid');
+GAME_ORDER.forEach(id=>{
+  const g = GAMES[id];
+  const card = document.createElement('div');
+  card.className = 'game-card';
+  card.innerHTML = `
+    <div class="bar" style="background:${g.color}"></div>
+    <div class="body">
+      <div class="icon" style="background:${g.color}22; color:${g.color}">${g.icon}</div>
+      <h3>${g.title}</h3>
+      <p>${g.sub}</p>
+      <button class="play">🎮 Jogar</button>
+    </div>`;
+  card.querySelector('.play').addEventListener('click', ()=>openGame(id));
+  gamesGrid.appendChild(card);
+});
+
+/* ============================================================
+   MOTOR DO JOGO
+============================================================ */
+let state = null; // {id, phase, score, queue, phaseTotal, correct, timerId, timeLeft}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function openGame(id){
+  const g = GAMES[id];
+  state = { id, phase:0, score:0, correctInPhase:0, queue:[], phaseTotal:0 };
+  document.getElementById('play-title').textContent = g.title;
+  document.getElementById('play-sub').textContent = g.sub;
+  startPhase();
+  showView('play');
+}
+
+document.getElementById('back-to-games').addEventListener('click', ()=>{
+  clearTimer();
+  showView('games');
+});
+
+function startPhase(){
+  clearTimer();
+  const g = GAMES[state.id];
+  const items = g.phases[state.phase];
+  state.queue = shuffle(items);
+  state.phaseTotal = items.length;
+  state.correctInPhase = 0;
+  renderPhaseDots();
+  renderBins();
+  updateScorePill();
+  nextItem();
+}
+
+function renderPhaseDots(){
+  const wrap = document.getElementById('phase-dots');
+  wrap.innerHTML='';
+  const g = GAMES[state.id];
+  g.phases.forEach((_,i)=>{
+    const d = document.createElement('div');
+    d.className = 'phase-dot' + (i<state.phase?' done':'') + (i===state.phase?' current':'');
+    wrap.appendChild(d);
+  });
+}
+
+function renderBins(){
+  const g = GAMES[state.id];
+  const binsWrap = document.getElementById('bins');
+  binsWrap.innerHTML='';
+  g.categories.forEach(cat=>{
+    const b = document.createElement('div');
+    b.className = 'bin';
+    b.dataset.key = cat.key;
+    b.style.background = cat.color;
+    b.innerHTML = `<span class="bin-emoji">${cat.emoji}</span>${cat.label}`;
+    binsWrap.appendChild(b);
+  });
+}
+
+function updateScorePill(){
+  document.getElementById('score-pill').textContent = state.score + ' pontos';
+}
+
+function clearTimer(){
+  if(state && state.timerId){ clearInterval(state.timerId); state.timerId=null; }
+  document.getElementById('timerbar-wrap').style.display='none';
+}
+
+function nextItem(){
+  clearTimer();
+  const stage = document.getElementById('stage');
+  const overlay = stage.querySelector('.phase-complete');
+  if(overlay) overlay.remove();
+
+  document.getElementById('item-counter').textContent =
+    `Item ${state.phaseTotal - state.queue.length + 1} de ${state.phaseTotal} · Fase ${state.phase+1}`;
+
+  if(state.queue.length === 0){
+    finishPhase();
+    return;
+  }
+  const item = state.queue[0];
+  const slot = document.getElementById('chip-slot');
+  slot.innerHTML = `
+    <div class="chip pop-in" id="active-chip">
+      <span class="emoji">${item.e}</span>
+      <span class="label">${item.t}</span>
+    </div>`;
+  attachDrag(document.getElementById('active-chip'), item);
+
+  const time = PHASE_TIME[state.phase];
+  const wrap = document.getElementById('timerbar-wrap');
+  const bar = document.getElementById('timerbar');
+  if(time > 0){
+    wrap.style.display='block';
+    bar.style.width='100%';
+    let left = time*1000;
+    const total = left;
+    state.timerId = setInterval(()=>{
+      left -= 100;
+      bar.style.width = Math.max(0,(left/total*100)) + '%';
+      if(left<=0){
+        clearTimer();
+        resolveDrop(null, item, false);
+      }
+    },100);
+  } else {
+    wrap.style.display='none';
+  }
+}
+
+function attachDrag(chip, item){
+  chip.addEventListener('pointerdown', (e)=>{
+    e.preventDefault();
+    chip.setPointerCapture(e.pointerId);
+    const rect = chip.getBoundingClientRect();
+    const offX = e.clientX - rect.left;
+    const offY = e.clientY - rect.top;
+    chip.classList.add('dragging');
+    chip.style.width = rect.width+'px';
+    chip.style.left = rect.left+'px';
+    chip.style.top = rect.top+'px';
+
+    function move(ev){
+      chip.style.left = (ev.clientX - offX)+'px';
+      chip.style.top = (ev.clientY - offY)+'px';
+      document.querySelectorAll('.bin').forEach(b=>b.classList.remove('drop-hover'));
+      const el = document.elementFromPoint(ev.clientX, ev.clientY);
+      const bin = el && el.closest ? el.closest('.bin') : null;
+      if(bin) bin.classList.add('drop-hover');
+    }
+    function up(ev){
+      chip.removeEventListener('pointermove', move);
+      chip.removeEventListener('pointerup', up);
+      document.querySelectorAll('.bin').forEach(b=>b.classList.remove('drop-hover'));
+      const el = document.elementFromPoint(ev.clientX, ev.clientY);
+      const bin = el && el.closest ? el.closest('.bin') : null;
+      chip.classList.remove('dragging');
+      chip.style.left=''; chip.style.top=''; chip.style.width='';
+      if(bin){
+        resolveDrop(bin.dataset.key, item, true);
+      }
+    }
+    chip.addEventListener('pointermove', move);
+    chip.addEventListener('pointerup', up);
+  });
+}
+
+function resolveDrop(chosenKey, item, wasDropped){
+  clearTimer();
+  const correct = chosenKey === item.c;
+  const binEl = chosenKey ? document.querySelector(`.bin[data-key="${chosenKey}"]`) : null;
+  const correctBin = document.querySelector(`.bin[data-key="${item.c}"]`);
+
+  if(correct){
+    state.score += Math.round(10 * (1 + state.phase*0.5));
+    state.correctInPhase++;
+    if(binEl){
+      binEl.classList.add('flash-correct');
+      setTimeout(()=>binEl.classList.remove('flash-correct'),500);
+      spawnFloaty(binEl, '+' + Math.round(10*(1+state.phase*0.5)));
+    }
+    updateScorePill();
+    state.queue.shift();
+    setTimeout(nextItem, 350);
+  } else {
+    if(binEl){
+      binEl.classList.add('flash-wrong');
+      setTimeout(()=>binEl.classList.remove('flash-wrong'),500);
+    }
+    if(correctBin){
+      correctBin.classList.add('drop-hover');
+      setTimeout(()=>correctBin.classList.remove('drop-hover'),700);
+    }
+    const chip = document.getElementById('active-chip');
+    if(chip){ chip.classList.add('shake'); setTimeout(()=>chip.classList.remove('shake'),400); }
+    // sem penalidade: item avança mesmo assim para manter o ritmo do jogo
+    state.queue.shift();
+    setTimeout(nextItem, 700);
+  }
+}
+
+function spawnFloaty(anchor, text){
+  const rect = anchor.getBoundingClientRect();
+  const f = document.createElement('div');
+  f.className = 'floaty';
+  f.textContent = text;
+  f.style.left = (rect.left + rect.width/2 - 14)+'px';
+  f.style.top = (rect.top)+'px';
+  f.style.color = '#fff';
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),1000);
+}
+
+function finishPhase(){
+  clearTimer();
+  document.getElementById('item-counter').textContent = '';
+  document.getElementById('chip-slot').innerHTML='';
+  document.getElementById('bins').innerHTML='';
+  renderPhaseDots();
+
+  const pct = state.correctInPhase / state.phaseTotal;
+  const stars = pct >= 0.9 ? 3 : pct >= 0.6 ? 2 : 1;
+  const isLast = state.phase === GAMES[state.id].phases.length - 1;
+
+  const stage = document.getElementById('stage');
+  const overlay = document.createElement('div');
+  overlay.className = 'phase-complete';
+  overlay.innerHTML = `
+    <div class="stars">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
+    <h3>${isLast ? 'Jogo concluído!' : 'Fase ' + (state.phase+1) + ' concluída!'}</h3>
+    <p>Você acertou ${state.correctInPhase} de ${state.phaseTotal} e já tem ${state.score} pontos.</p>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
+      ${isLast
+        ? `<button class="btn btn-primary" id="btn-replay">🔁 Jogar novamente</button><button class="btn btn-ghost" id="btn-exit">Voltar aos jogos</button>`
+        : `<button class="btn btn-primary" id="btn-next-phase">Próxima fase →</button>`
+      }
+    </div>`;
+  stage.appendChild(overlay);
+
+  if(isLast){
+    document.getElementById('btn-replay').addEventListener('click', ()=>{
+      state.phase = 0; state.score = 0; updateScorePill(); startPhase();
+    });
+    document.getElementById('btn-exit').addEventListener('click', ()=>showView('games'));
+  } else {
+    document.getElementById('btn-next-phase').addEventListener('click', ()=>{
+      state.phase++;
+      startPhase();
+    });
+  }
+}
+
+/* ============================================================
+   TUTORA IA (estilo chat): o aluno escolhe o conteúdo e a IA tira a dúvida
+   A chave da API NUNCA fica neste arquivo: fica no servidor (server.js).
+============================================================ */
+const CHAT_API_URL = '/api/chat';
+const TOPICS = [
+  {id:'fundamentos', title:'O que é Ciência?', emoji:'🔭', color:'#6D1F2A',
+   desc:'Método científico e as grandes áreas da Ciência.',
+   intro:'Vamos entender o que é Ciência e como o método científico funciona.',
+   suggestions:['O que é método científico?','Qual a diferença entre Biologia, Química e Física?','Por que a ciência pode mudar de ideia?']},
+  {id:'celulas', title:'Células', emoji:'🧫', color:'#4F9E62',
+   desc:'Célula animal, célula vegetal e suas organelas.',
+   intro:'Vamos estudar as células, a unidade básica de todo ser vivo.',
+   suggestions:['Qual a diferença entre célula animal e vegetal?','Para que serve a mitocôndria?','O que faz o núcleo?']},
+  {id:'quimica', title:'Química Básica', emoji:'⚗️', color:'#2FA88A',
+   desc:'Átomos, elementos e fórmulas químicas.',
+   intro:'Vamos estudar átomos, elementos e como eles formam as substâncias.',
+   suggestions:['O que é um átomo?','Qual a diferença entre elemento e composto?','O que a fórmula H₂O indica?']},
+  {id:'seresVivos', title:'Seres Vivos e Não Vivos', emoji:'🐾', color:'#4CAF7D',
+   desc:'O que caracteriza um ser vivo.',
+   intro:'Vamos aprender o que diferencia seres vivos de seres não vivos.',
+   suggestions:['Como saber se algo é vivo?','Uma semente é um ser vivo?','Fogo é um ser vivo?']},
+  {id:'misturasTipos', title:'Tipos de Misturas', emoji:'🥤', color:'#9B6BC7',
+   desc:'Soluções, suspensões e coloides.',
+   intro:'Vamos estudar os tipos de dispersões: soluções, suspensões e coloides.',
+   suggestions:['Qual a diferença entre solução e suspensão?','O que é um coloide?','Leite é uma solução?']},
+  {id:'substancias', title:'Substâncias Simples e Compostas', emoji:'🔬', color:'#2D9CDB',
+   desc:'Como diferenciar uma substância simples de uma composta.',
+   intro:'Vamos aprender a diferenciar substâncias simples e compostas.',
+   suggestions:['O que é substância simples?','O que é substância composta?','O ozônio (O₃) é simples ou composto?']},
+  {id:'tecidos', title:'Tecidos do Corpo', emoji:'🧵', color:'#E15554',
+   desc:'Epitelial, conjuntivo, muscular e nervoso.',
+   intro:'Vamos conhecer os quatro tipos de tecido que formam o corpo humano.',
+   suggestions:['Quais são os quatro tipos de tecido?','Onde fica o tecido nervoso?','O sangue é um tecido?']},
+  {id:'homHet', title:'Homogênea ou Heterogênea?', emoji:'🥗', color:'#D9764A',
+   desc:'Como identificar uma mistura pelo número de fases.',
+   intro:'Vamos aprender a reconhecer misturas homogêneas e heterogêneas.',
+   suggestions:['Como saber se uma mistura é homogênea?','Água com óleo é homogênea?','O que é uma fase?']},
+  {id:'sentidos', title:'Quem Percebe o Quê?', emoji:'👀', color:'#FF6348',
+   desc:'Os cinco sentidos e os órgãos de cada um.',
+   intro:'Vamos estudar os cinco sentidos e como cada órgão percebe o mundo.',
+   suggestions:['Quais são os cinco sentidos?','Como o ouvido percebe o som?','Como a língua sente o sabor?']},
+  {id:'olhoPartes', title:'Partes do Olho', emoji:'👁️', color:'#2E86DE',
+   desc:'Estruturas externas e internas do olho.',
+   intro:'Vamos conhecer as partes externas e internas do olho.',
+   suggestions:['Qual a função da retina?','O que é a córnea?','Qual a diferença entre íris e pupila?']}
+];
+
+let currentTopic = null;
+let chatHistory = [];
+let chatSession = 0;   // muda quando o aluno troca de conteúdo, para descartar respostas antigas
+let busy = false;
+
+const topicGrid = document.getElementById('topic-grid');
+const chatPick = document.getElementById('chat-pick');
+const chatTalk = document.getElementById('chat-talk');
+const chatLog = document.getElementById('chat-log');
+const chatSuggest = document.getElementById('chat-suggest');
+const chatForm = document.getElementById('chat-form');
+const chatInput = document.getElementById('chat-input');
+const chatSend = document.getElementById('chat-send');
+const chatTopicTitle = document.getElementById('chat-topic-title');
+
+TOPICS.forEach(t=>{
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'topic-card';
+  b.style.borderTopColor = t.color;
+  b.innerHTML = `<span class="t-emoji">${t.emoji}</span><h3>${t.title}</h3><p>${t.desc}</p>`;
+  b.addEventListener('click', ()=>selectTopic(t.id));
+  topicGrid.appendChild(b);
+});
+
+/* ---------- Voz da tutora ----------
+   Usa a síntese de voz do navegador e prioriza vozes pt-BR mais naturais quando disponíveis. */
+let voiceEnabled = true;
+let voiceToken = 0;
+const robotVoice = 'speechSynthesis' in window ? window.speechSynthesis : null;
+let cachedPortugueseVoice = null;
+
+function refreshTutorVoice(){
+  if(!robotVoice) return;
+  const voices = robotVoice.getVoices();
+  const portuguese = voices.filter(v => /^pt(-|$)/i.test(v.lang));
+  const brazilian = portuguese.filter(v => /^pt-BR$/i.test(v.lang));
+  // Prioriza voz pt-BR instalada no aparelho: normalmente começa antes de vozes remotas.
+  cachedPortugueseVoice = brazilian.find(v => v.localService) || brazilian[0] ||
+    portuguese.find(v => v.localService) || portuguese[0] || null;
+}
+if(robotVoice){
+  refreshTutorVoice();
+  robotVoice.addEventListener?.('voiceschanged', refreshTutorVoice);
+}
+
+function unlockAudio(){
+  // Carrega e memoriza as vozes durante a interação, antes da próxima resposta.
+  if(robotVoice) refreshTutorVoice();
+}
+function stopVoice(){
+  voiceToken++;
+  if(robotVoice) robotVoice.cancel();
+}
+function splitForSpeech(text){
+  // Envia um trecho inicial curto para o sintetizador sem esperar processar a resposta inteira.
+  const sentences = String(text).match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [String(text)];
+  const chunks = [];
+  let chunk = '';
+  for(const sentence of sentences){
+    const part = sentence.trim();
+    if(!part) continue;
+    if(chunk && (chunk.length + part.length + 1 > 220)){
+      chunks.push(chunk);
+      chunk = '';
+    }
+    if(part.length > 220){
+      if(chunk) chunks.push(chunk);
+      chunk = '';
+      for(let i=0;i<part.length;i+=220) chunks.push(part.slice(i,i+220));
+    } else {
+      chunk += (chunk ? ' ' : '') + part;
+    }
+  }
+  if(chunk) chunks.push(chunk);
+  return chunks;
+}
+function speakRobot(text){
+  if(!voiceEnabled) return;
+  if(!robotVoice || typeof SpeechSynthesisUtterance === 'undefined'){
+    voiceBtn.textContent = '⚠️ Voz indisponível neste navegador';
+    return;
+  }
+  const token = ++voiceToken;
+  if(robotVoice.speaking || robotVoice.pending) robotVoice.cancel();
+  if(robotVoice.paused) robotVoice.resume();
+  const chunks = splitForSpeech(text);
+  let index = 0;
+  const speakNext = ()=>{
+    if(token !== voiceToken || !voiceEnabled || index >= chunks.length) return;
+    const utterance = new SpeechSynthesisUtterance(chunks[index++]);
+    utterance.lang = 'pt-BR';
+    utterance.pitch = 1.0;
+    utterance.rate = 1.0;
+    utterance.volume = 1;
+    if(cachedPortugueseVoice) utterance.voice = cachedPortugueseVoice;
+    utterance.onend = speakNext;
+    utterance.onerror = ()=>{
+      if(token === voiceToken) voiceBtn.title = 'O navegador não conseguiu reproduzir o áudio. Confira o volume e as permissões.';
+    };
+    // Chama speak imediatamente: sem timeout e sem aguardar os próximos trechos.
+    robotVoice.speak(utterance);
+  };
+  speakNext();
+}
+
+const voiceBtn = document.getElementById('chat-voice');
+function renderVoiceBtn(){
+  voiceBtn.textContent = voiceEnabled ? '🔊 Voz ligada' : '🔇 Ativar voz';
+  voiceBtn.title = voiceEnabled ? 'Clique para desligar a voz' : 'Clique para ativar e testar a voz';
+  voiceBtn.setAttribute('aria-pressed', String(voiceEnabled));
+}
+voiceBtn.addEventListener('click', ()=>{
+  voiceEnabled = !voiceEnabled;
+  if(voiceEnabled){
+    unlockAudio();
+    speakRobot('Teste de voz. A tutora está pronta para ajudar.');
+  } else {
+    stopVoice();
+  }
+  renderVoiceBtn();
+});
+renderVoiceBtn();
+
+// Ao entrar na aba, apenas prepara as vozes; a tutora só fala após a escolha do tema.
+document.querySelector('.tab-btn[data-view="chat"]').addEventListener('click', unlockAudio);
+
+function addMsg(text, cls){
+  const row = document.createElement('div');
+  row.className = 'row ' + (cls === 'user' ? 'user' : 'bot');
+  if(cls !== 'user'){
+    const av = document.createElement('span');
+    av.className = 'mini-avatar';
+    av.textContent = '🤖';
+    row.appendChild(av);
+  }
+  const bub = document.createElement('div');
+  bub.className = 'msg ' + cls;
+  bub.textContent = text; // textContent evita injeção de HTML
+  row.appendChild(bub);
+  chatLog.appendChild(row);
+  chatLog.scrollTop = chatLog.scrollHeight;
+  if(cls === 'bot') speakRobot(text); // só o tutor fala
+  return row;
+}
+
+function setInputEnabled(on){
+  chatInput.disabled = !on;
+  chatSend.disabled = !on;
+  chatSuggest.querySelectorAll('button').forEach(b=>b.disabled = !on);
+}
+
+function renderSuggestions(){
+  chatSuggest.innerHTML = '';
+  currentTopic.suggestions.forEach(q=>{
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'suggest-chip';
+    b.textContent = q;
+    b.addEventListener('click', ()=>sendQuestion(q));
+    chatSuggest.appendChild(b);
+  });
+}
+
+function selectTopic(id){
+  unlockAudio();
+  currentTopic = TOPICS.find(t=>t.id === id);
+  chatSession++;
+  chatHistory = [];
+  busy = false;
+  stopVoice();
+  chatLog.innerHTML = '';
+  chatTopicTitle.textContent = currentTopic.title;
+  chatPick.style.display = 'none';
+  chatTalk.style.display = 'block';
+  addMsg(`Oi! ${currentTopic.intro} Pode me perguntar o que quiser sobre o tema.`, 'bot');
+  renderSuggestions();
+  setInputEnabled(true);
+  chatInput.focus();
+}
+
+document.getElementById('chat-change').addEventListener('click', ()=>{
+  chatSession++;
+  currentTopic = null;
+  chatHistory = [];
+  busy = false;
+  stopVoice();
+  chatTalk.style.display = 'none';
+  chatPick.style.display = 'block';
+  window.scrollTo({top:0, behavior:'auto'});
+});
+
+const TUTOR_NOTES = {
+ "fundamentos": "Ciência é um conhecimento organizado, construído para entender a natureza, e nasce da curiosidade. Método científico: observar, levantar hipóteses, fazer experimentos, coletar dados, analisar resultados e chegar a conclusões, que podem ser revistas com novas evidências. Grandes áreas: Biologia (seres vivos), Química (matéria, átomos, substâncias e misturas), Física (movimento, energia, luz, forças), Astronomia e Geologia.",
+ "celulas": "A célula é a unidade básica de todo ser vivo. Estruturas da célula animal: membrana plasmática, citoplasma, núcleo, mitocôndria, ribossomos, complexo de Golgi, retículo endoplasmático, lisossomo, centríolo e cílios. A célula vegetal tem essas estruturas e também parede celular, cloroplastos, vacúolo grande e plastídios. Mitocôndria: libera energia (respiração celular). Cloroplasto: faz fotossíntese. Núcleo: controla a célula e guarda o material genético.",
+ "quimica": "Átomos são as partículas que formam a matéria. Elementos químicos são tipos de átomos, como O, H, Fe e Au. Substâncias formadas por um só elemento são simples (O₂, Fe, Au). Substâncias formadas por dois ou mais elementos são compostas (H₂O, CO₂, NaCl, glicose). Uma fórmula química indica quais elementos existem e em que quantidade.",
+ "seresVivos": "Seres vivos são formados por células, nascem, crescem, se alimentam, se reproduzem e se relacionam com o ambiente. Exemplos de seres vivos: cachorro, árvore, fungo, formiga, bactéria, coral, semente e flor. Exemplos de não vivos: pedra, carro, cadeira, nuvem, gelo, sol, computador e vela acesa.",
+ "misturasTipos": "Dispersões são misturas de um material disperso em outro. Solução: uma só fase, partículas muito pequenas que não se separam (água com sal, ar, água do mar). Suspensão: partículas grandes que se separam com o tempo (água com areia, suco com polpa, tinta). Coloide: partículas intermediárias, que não se separam facilmente e espalham a luz (leite, maionese, fumaça, nevoeiro, gelatina).",
+ "substancias": "Substância simples: formada por um único elemento químico (O₂, N₂, O₃, Fe, Au, H₂, P₄). Substância composta: formada por dois ou mais elementos químicos diferentes (H₂O, CO₂, NaCl, NH₃, glicose C₆H₁₂O₆, H₂SO₄, CaCO₃).",
+ "tecidos": "Tecido epitelial: reveste e protege (pele, revestimento do intestino, células de glândulas). Tecido conjuntivo: sustenta e conecta (osso, sangue, cartilagem, tecido adiposo, tendão). Tecido muscular: contrai e movimenta (músculo do braço, músculo cardíaco, músculo liso). Tecido nervoso: transmite impulsos (neurônio, nervo óptico, medula espinhal).",
+ "homHet": "Mistura homogênea tem uma só fase e aparência uniforme (água com sal, ar, aço, refrigerante, vinagre). Mistura heterogênea tem mais de uma fase, e suas partes podem ser vistas (água com óleo, salada, granito, água com areia, suco com polpa, leite). Fase é cada parte visivelmente diferente da mistura.",
+ "sentidos": "Os cinco sentidos: visão (olhos), audição (ouvidos, com cóclea e tímpano), olfato (nariz, com epitélio olfativo), paladar (língua, com papilas gustativas) e tato (pele, com receptores de pressão).",
+ "olhoPartes": "Partes externas: pálpebra, córnea, íris, pupila, esclera (o branco do olho), glândula lacrimal e músculos do olho. Partes internas: retina, cristalino, humor vítreo, humor aquoso, coroide e nervo óptico."
+};
+
+const TUTOR_RULES = `Você é a Tutora de Ciências da plataforma "Como a IA Ajuda na Aprendizagem", feita para estudantes.
+Você responde somente sobre Ciências e sobre os conteúdos desta plataforma, para estudar.
+Se a pergunta não for uma dúvida de estudo, recuse gentilmente em uma ou duas frases e volte ao conteúdo escolhido.
+Use linguagem simples, frases curtas e exemplos do cotidiano. Respostas curtas: em geral até 150 palavras. Escreva em português do Brasil.
+Use as informações do conteúdo como base principal, mas responda qualquer dúvida de estudo sobre ele no nível do ensino fundamental.
+Só nos exercícios, antes da resposta completa, dê pistas para o aluno pensar.`;
+
+function normalizeForSearch(value){
+  return value.toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
+function offlineTutorAnswer(topicId, messages){
+  const topic = TOPICS.find(t=>t.id === topicId);
+  const question = messages[messages.length - 1]?.content || '';
+  const stopWords = new Set(['qual','quais','como','porque','por','para','uma','um','uns','umas','que','o','a','os','as','de','do','da','dos','das','e','é','ser','sao','são','me','explique','fale','sobre','tem','faz','com','no','na','em','se','isso','essa','esse','diferenca','entre']);
+  const terms = normalizeForSearch(question).split(/[^a-z0-9]+/).filter(w=>w.length>2 && !stopWords.has(w));
+  const sentences = (TUTOR_NOTES[topicId] || '').split(/(?<=[.!?])\s+/).filter(Boolean);
+  const ranked = sentences.map((sentence,index)=>{
+    const normalized = normalizeForSearch(sentence);
+    const score = terms.reduce((sum,term)=>sum + (normalized.includes(term) ? 1 : 0),0);
+    return {sentence,index,score};
+  }).filter(item=>item.score>0).sort((a,b)=>b.score-a.score || a.index-b.index).slice(0,2);
+  if(ranked.length){
+    const answer = ranked.map(item=>item.sentence).join(' ');
+    return 'Resposta de apoio: ' + answer + ' Se quiser, posso explicar essa parte com um exemplo.';
+  }
+  return `Posso ajudar com ${topic?.title || 'Ciências'}. Aqui está um resumo para começar: ${TUTOR_NOTES[topicId] || 'Escolha um conteúdo e pergunte sobre ele.'} Tente perguntar sobre um conceito específico desse tema.`;
+}
+
+async function askTutor(topicId, messages){
+  // Se um servidor com IA estiver instalado, usa a resposta generativa dele.
+  const controller = new AbortController();
+  const timeoutId = setTimeout(()=>controller.abort(), 3500);
+  try{
+    const r = await fetch(CHAT_API_URL, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({topic:topicId, messages}),
+      signal: controller.signal
+    });
+    if(r.ok){
+      const d = await r.json();
+      if(typeof d.reply === 'string' && d.reply.trim()) return d.reply.trim();
+    }
+  }catch(e){ /* sem servidor ou timeout: responde usando o material local */ }
+  finally{ clearTimeout(timeoutId); }
+  // Sem servidor, responde com o conteúdo de Ciências incluído neste arquivo.
+  return offlineTutorAnswer(topicId, messages);
+}
+
+async function sendQuestion(text){
+  unlockAudio();
+  text = (text || '').trim();
+  if(!text || busy || !currentTopic) return;
+
+  busy = true;
+  const session = chatSession;
+  const topicId = currentTopic.id;
+  addMsg(text, 'user');
+  chatHistory.push({role:'user', content:text});
+  chatInput.value = '';
+  setInputEnabled(false);
+  const typing = addMsg('Pensando…', 'bot typing');
+
+  try{
+    const reply = await askTutor(topicId, chatHistory.slice(-12));
+    const data = { reply };
+    if(session !== chatSession) return; // o aluno trocou de conteúdo enquanto esperava
+    typing.remove();
+    addMsg(data.reply, 'bot');
+    chatHistory.push({role:'assistant', content:data.reply});
+  }catch(err){
+    if(session !== chatSession) return;
+    typing.remove();
+    addMsg('Não consegui processar essa pergunta. Tente escrever de outro jeito ou perguntar sobre um conceito do tema.', 'error');
+    chatHistory.pop(); // remove a pergunta que ficou sem resposta
+  }finally{
+    if(session === chatSession){
+      busy = false;
+      setInputEnabled(true);
+      chatInput.focus();
+    }
+  }
+}
+
+chatForm.addEventListener('submit', e=>{
+  e.preventDefault();
+  sendQuestion(chatInput.value);
+});
+</script>
+</body>
+</html>
